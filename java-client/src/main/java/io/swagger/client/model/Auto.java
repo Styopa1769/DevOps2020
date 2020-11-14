@@ -49,7 +49,14 @@ public class Auto {
     return this;
   }
 
-   /**
+  public Auto(Long id, String maker, String model, Long year) {
+    this.id = id;
+    this.maker = maker;
+    this.model = model;
+    this.year = year;
+  }
+
+  /**
    * Get id
    * @return id
   **/

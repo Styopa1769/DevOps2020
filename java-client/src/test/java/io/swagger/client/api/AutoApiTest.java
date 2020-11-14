@@ -15,37 +15,22 @@ package io.swagger.client.api;
 
 import io.swagger.client.ApiException;
 import io.swagger.client.model.Auto;
+import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * API tests for AutoApi
  */
-@Ignore
 public class AutoApiTest {
 
     private final AutoApi api = new AutoApi();
+    private static final Auto SPECTRA = new Auto(1L, "kia", "spectra", 2007L);
+    private static final Auto SPORTAGE = new Auto(2L, "kia", "sportage", 2006L);
 
-    
-    /**
-     * Add a new auto to the dealer
-     *
-     * 
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void addAutoTest() throws ApiException {
-        Auto body = null;
-        api.addAuto(body);
-
-        // TODO: test validations
+    @Before
+    public void beforeAll() throws ApiException {
+        api.addAuto(SPECTRA);
     }
     
     /**
@@ -57,12 +42,12 @@ public class AutoApiTest {
      *          if the Api call fails
      */
     @Test
-    public void deleteAutoTest() throws ApiException {
-        Long autoId = null;
+    public void addThenDeleteAutoTest() throws ApiException {
         String apiKey = null;
-        api.deleteAuto(autoId, apiKey);
-
-        // TODO: test validations
+        api.addAuto(SPORTAGE);
+        Assert.assertEquals(SPORTAGE, api.getAutoById(SPORTAGE.getId()));
+        api.deleteAuto(SPORTAGE.getId(), apiKey);
+        Assert.assertNull(api.getAutoById(SPORTAGE.getId()));
     }
     
     /**
@@ -75,10 +60,8 @@ public class AutoApiTest {
      */
     @Test
     public void getAutoByIdTest() throws ApiException {
-        Long autoId = null;
-        Auto response = api.getAutoById(autoId);
-
-        // TODO: test validations
+        Auto response = api.getAutoById(SPECTRA.getId());
+        Assert.assertEquals(SPECTRA, response);
     }
     
     /**
@@ -91,10 +74,10 @@ public class AutoApiTest {
      */
     @Test
     public void updateAutoTest() throws ApiException {
-        Auto body = null;
-        api.updateAuto(body);
-
-        // TODO: test validations
+        Long newYear = 2008L;
+        Auto newAuto = new Auto(1L, "kia", "spectra", newYear);
+        api.updateAuto(newAuto);
+        Assert.assertEquals(newAuto, api.getAutoById(newAuto.getId()));
     }
     
 }
